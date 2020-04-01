@@ -172,13 +172,13 @@ class LogicNormal(object):
         
         imageFile = os.path.join(download_path, 'photo', created_time, nowtime+'.'+ext)
         
-        if not os.path.isfile(coverFile):
+        if not os.path.isfile(imageFile):
             if not os.path.isdir(os.path.join(download_path, 'photo', created_time)):
                 logger.debug("폴더 생성 : " + os.path.join(download_path, 'photo', created_time))
                 os.makedirs(os.path.join(download_path, 'photo', created_time))
         
             rtn = subprocess.check_output (['curl', '-o', imageFile, img])
-            logger.debug("저장 : %s to %s", img, coverFile)
+            logger.debug("저장 : %s to %s", img, imageFile)
         
 
 
