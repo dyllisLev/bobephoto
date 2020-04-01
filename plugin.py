@@ -38,16 +38,16 @@ menu = {
     'sub' : [
         ['setting', '설정'], ['log', '로그']
     ],
-    'category' : 'fileprocess'
+    'category' : 'service'
 }
 
 plugin_info = {
     'version' : '0.1.0.0',
     'name' : 'bobephoto',
-    'category_name' : 'fileprocess',
+    'category_name' : 'service',
     'developer' : 'dyllis.lev',
     'description' : '보배포토',
-    'home' : 'https://github.com/dyllisLev/musicProc',
+    'home' : 'https://github.com/dyllisLev/bobephoto',
     'more' : '',
 }
 
