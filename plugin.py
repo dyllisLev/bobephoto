@@ -11,7 +11,7 @@ from flask_login import login_user, logout_user, current_user, login_required
 
 # sjva 공용
 from framework.logger import get_logger
-from framework import app, db, scheduler, path_data, socketio
+from framework import app, db, scheduler, path_data, socketio, check_api
 from framework.util import Util
 from system.logic import SystemLogic
 from framework.common.torrent.process import TorrentProcess
@@ -36,7 +36,7 @@ blueprint = Blueprint(package_name, package_name, url_prefix='/%s' %  package_na
 menu = {
     'main' : [package_name, '보배포토'],
     'sub' : [
-        ['setting', '설정'], ['log', '로그']
+        ['setting', '설정'], ['view', 'VIEW'], ['log', '로그']
     ],
     'category' : 'service'
 }
@@ -67,7 +67,7 @@ def process_telegram_data(data):
 #########################################################
 @blueprint.route('/')
 def home():
-    return redirect('/%s/setting' % package_name)
+    return redirect('/%s/view' % package_name)
 
 @blueprint.route('/<sub>')
 @login_required
@@ -78,7 +78,7 @@ def first_menu(sub):
         arg['scheduler'] = str(scheduler.is_include(package_name))
         arg['is_running'] = str(scheduler.is_running(package_name))
         return render_template('%s_%s.html' % (package_name, sub), arg=arg)
-    elif sub == 'list':
+    elif sub == 'view':
         return render_template('%s_%s.html' % (package_name, sub), arg=arg)
     elif sub == 'manage':
         return render_template('/manage/%s_%s.html' % (package_name, sub), arg=arg)
@@ -122,8 +122,55 @@ def ajax(sub):
             from .logic_normal import LogicNormal
             ret = LogicNormal.tagUpdate(request)
             return jsonify(ret)
+        
             
     except Exception as e: 
         logger.error('Exception:%s', e)
         logger.error(traceback.format_exc())  
         return jsonify('fail')   
+#########################################################
+# API - 외부
+#########################################################
+@blueprint.route('/api/<sub>', methods=['GET', 'POST'])
+@check_api
+def api(sub):
+    try:
+        if sub == 'image':
+            id = request.args.get('id')
+            info = ModelItem.get(id)
+            path = info.photoPath
+            return send_file(os.path.join(path), mimetype='image/'+path.split(".")[-1])
+
+
+            """
+            method = ModelSetting.get('javdb_landscape_poster')
+            if method == '0':
+                return redirect(image_url)
+
+            import requests
+            width,height = im.size
+            logger.debug(width)
+            logger.debug(height)
+            if height > width * 1.5:
+                return redirect(image_url)
+            if method == '1':
+                if width > height:
+                    im = im.rotate(-90, expand=True)
+            elif method == '2':
+                if width > height:
+                    im = im.rotate(90, expand=True)
+            elif method == '3':
+                new_height = int(width * 1.5)
+                new_im = Image.new('RGB', (width, new_height))
+                new_im.paste(im, (0, int((new_height-height)/2)))
+                im = new_im
+
+            filename = os.path.join(path_data, 'tmp', 'rotate.jpg')
+            im.save(filename)
+            
+            """
+        return jsonify(ret)
+        
+    except Exception as e:
+        logger.debug('Exception:%s', e)
+        logger.debug(traceback.format_exc())        

@@ -151,30 +151,28 @@ class ModelItem(db.Model):
     def select(req):
         try:
             class_is = ModelItem
-            """
+
+            viewCount = 1
+            stCount = 0
+            if 'viewCount' in req.form:
+                viewCount = int(req.form['viewCount'])
+            if 'stCount' in req.form:
+                stCount = int(req.form['stCount'])
+            
             ret = {}
-            page = 1
-            page_size = 30
-            job_id = ''
-            search = ''
-            option = req.form['option']
-            if 'page' in req.form:
-                page = int(req.form['page'])
-            if 'search_word' in req.form:
-                search = req.form['search_word']
+            
             query = db.session.query(class_is)
-            if search != '':
-                query = query.filter(class_is.title.like('%'+search+'%'))
-            if option != 'all':
-                query = query.filter(class_is.statusCd.like('%'+option+'%'))
             query = query.order_by(desc(class_is.id))
             count = query.count()
-            query = query.limit(page_size).offset((page-1)*page_size)
+            query = query.limit(viewCount).offset(stCount)
             lists = query.all()
             ret['list'] = [item.as_dict() for item in lists]
-            ret['paging'] = Util.get_paging_info(count, page, page_size)
+            #ret['paging'] = Util.get_paging_info(count, page, page_size)
+            ret['allCount'] = count
+            ret['viewCount'] = stCount + viewCount
+
             return ret
-            """
+            
         except Exception, e:
             logger.error('Exception:%s', e)
             logger.error(traceback.format_exc())

@@ -178,19 +178,13 @@ class LogicNormal(object):
                 os.makedirs(os.path.join(download_path, 'photo', created_time))
         
             rtn = subprocess.check_output (['curl', '-o', imageFile, img])
+            LogicNormal.procSave(img, imageFile)
             logger.debug("저장 : %s to %s", img, imageFile)
-        
-
-
-        
-
     
-        
-        
-
-
-        
-        
-        
-        
-        
+    @staticmethod
+    def procSave(photoUrl , photoPath):
+        entity = {}
+        entity['id'] = ""
+        entity['photoUrl'] = photoUrl 
+        entity['photoPath'] = photoPath
+        ModelItem.save_as_dict(entity)
