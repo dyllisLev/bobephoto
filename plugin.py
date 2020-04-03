@@ -140,6 +140,12 @@ def api(sub):
             info = ModelItem.get(id)
             path = info.photoPath
             return send_file(os.path.join(path), mimetype='image/'+path.split(".")[-1])
+        if sub == 'css':
+            pluginPath = ModelSetting.get('pluginPath')
+            return send_file(os.path.join(pluginPath, 'templates','justifiedGallery.min.css'))
+        if sub == 'js':
+            pluginPath = ModelSetting.get('pluginPath')
+            return send_file(os.path.join(pluginPath, 'templates','jquery.justifiedGallery.min.js'))
 
 
             """

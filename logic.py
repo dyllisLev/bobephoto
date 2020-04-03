@@ -28,7 +28,8 @@ class Logic(object):
         'auto_start' : 'False',
         'schedulerInterval' : '60',
         'getContentCnt' : '10',
-        'lastNo' : '0'
+        'lastNo' : '0',
+        'pluginPath' : os.path.join(path_data, package_name)
 
 
     }
