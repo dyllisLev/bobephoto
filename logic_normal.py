@@ -114,17 +114,16 @@ class LogicNormal(object):
                     
                     soup = BeautifulSoup(bodyData, 'html.parser')
 
-                    bodyCont = soup.find('div', class_='bodyCont')
-                    for img in bodyCont.find_all('img'):
-                        logger.debug("img : %s",img['src'])
-
-                        try:
+                    try:
+                        bodyCont = soup.find('div', class_='bodyCont')
+                        for img in bodyCont.find_all('img'):
+                            logger.debug("img : %s",img['src'])
                             LogicNormal.getImage(img['src'])
-                        except Exception as e:
-                            logger.debug("ERR: %s", img['src'])
-                            logger.debug(e)
+                    except Exception as e:
+                        logger.debug("ERR: %s", img['src'])
+                        logger.debug(e)
 
-                        time.sleep(3)
+                    time.sleep(3)
                     #time.sleep(3)
 
             ModelSetting.set('lastNo', maxNo)
@@ -178,6 +177,8 @@ class LogicNormal(object):
                 os.makedirs(os.path.join(download_path, 'photo', created_time))
         
             rtn = subprocess.check_output (['curl', '-o', imageFile, img])
+            #rtn = subprocess.check_output (['powershell', '"(new-Object System.Net.WebClient).DownloadFile('+imageFile+', '+img+')"'])
+            
             LogicNormal.procSave(img, imageFile)
             logger.debug("저장 : %s to %s", img, imageFile)
     
