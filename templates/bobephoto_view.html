@@ -66,7 +66,7 @@ $(document).ready(function(){
 
 $(window).scroll(function(){
   var height = $(document).height();
-  if( $('div#mygallery img').last().offset().top / height > 0.7 && isResearch && current_data.viewCount < current_data.allCount){
+  if( $(document).scrollTop() / height > 0.7 && isResearch && current_data.viewCount < current_data.allCount){
     isResearch = false;
     request_search(30);
   }
