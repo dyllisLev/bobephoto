@@ -67,7 +67,7 @@ $(document).ready(function(){
 $(window).scroll(function(){
   var height = $(document).height();
   var scroll = $(window).scrollTop() + $(window).height();
-  if( scroll / height > 0.7 && isResearch && current_data.allCount < current_data.viewCount){
+  if( scroll / height > 0.7 && isResearch && current_data.viewCount < current_data.allCount){
     isResearch = false;
     request_search(30);
   }
