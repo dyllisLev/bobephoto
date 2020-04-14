@@ -12,6 +12,7 @@
 var package_name = "{{arg['package_name'] }}";
 var current_data = null;
 var dataList = null;
+var isResearch = true;
 function request_search(viewCount) {
   var formData = get_formdata('#form_search')
   formData += '&viewCount=' + viewCount;
@@ -30,6 +31,7 @@ function request_search(viewCount) {
       current_data = data;
       //debugger;
       make_list(data.list);
+      isResearch = true;
     }
   });
 }
@@ -63,8 +65,10 @@ $(document).ready(function(){
 });
 
 $(window).scroll(function(){
-  if($(document).height() <= $(window).scrollTop() + $(window).height()){
-    //debugger;
+  var height = $(document).height();
+  var scroll = $(window).scrollTop() + $(window).height();
+  if( scroll / height > 0.7 && isResearch && current_data.allCount < current_data.viewCount){
+    isResearch = false;
     request_search(30);
   }
 });
