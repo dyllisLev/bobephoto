@@ -6,6 +6,9 @@
     
     
 </div>
+<div>
+  <button type="button" class="btn btn-secondary btn-lg btn-block" onclick="request_search(30)">더보기</button>
+</div>
 
 
 <script type="text/javascript">
@@ -63,7 +66,7 @@ $(document).ready(function(){
   }
   request_search(30);
 });
-
+/*
 $(window).scroll(function(){
   var height = $(document).height();
   if( $(document).scrollTop() / height > 0.7 && isResearch && current_data.viewCount < current_data.allCount){
@@ -71,6 +74,6 @@ $(window).scroll(function(){
     request_search(30);
   }
 });
-
+*/
 </script>    
 {% endblock %}
