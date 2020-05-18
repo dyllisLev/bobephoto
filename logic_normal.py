@@ -17,12 +17,6 @@ import requests
 from lxml import html
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.common.exceptions import TimeoutException
-from mutagen.easyid3 import EasyID3
-from mutagen.id3 import ID3, ID3NoHeaderError, APIC, TT2, TPE1, TRCK, TALB, USLT, error, TIT2, TORY, TCON, TYER, USLT
-from mutagen.mp3 import EasyMP3 as MP3
-from mutagen.mp4 import MP4
-from mutagen.flac import FLAC
-import mutagen
 import platform
 
 
